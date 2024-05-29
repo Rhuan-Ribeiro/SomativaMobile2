@@ -14,6 +14,45 @@ class _UserRegistrationState extends State<UserRegistration> {
   TextEditingController emailN = TextEditingController();
   TextEditingController passwordN = TextEditingController();
   bool display = false;
+
+  void _showConfirmationDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Row(
+            children: [
+              Text(
+                'Usuário Cadastrado',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(width: 8), // Espaço entre o ícone e o texto
+              Icon(Icons.check, color: Colors.green), // Ícone de check
+            ],
+          ),
+          content: const Text('Seu usuário foi cadastrado com sucesso.'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.blue,
+              ),
+              child: const Text(
+                'OK',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   _userRegistration() async {
     String url = "http://10.109.83.13:3000/users";
     Map<String, dynamic> message = {
@@ -30,6 +69,8 @@ class _UserRegistrationState extends State<UserRegistration> {
 
     emailN.text = "";
     passwordN.text = "";
+
+    _showConfirmationDialog();
   }
 
   @override
@@ -49,10 +90,8 @@ class _UserRegistrationState extends State<UserRegistration> {
                     padding: EdgeInsets.all(8.0),
                     child: Text(
                       "CADASTRO",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
                     ),
                   ),
                   Padding(
@@ -99,7 +138,7 @@ class _UserRegistrationState extends State<UserRegistration> {
                     child: ElevatedButton(
                       onPressed: _userRegistration,
                       style: ButtonStyle(
-                        fixedSize: MaterialStateProperty.all<Size>(
+                        fixedSize: WidgetStateProperty.all<Size>(
                             const Size(300, double.infinity)),
                       ),
                       child: const Text(

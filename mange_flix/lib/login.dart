@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:mange_flix/cadaster.dart';
-import 'package:mange_flix/films.dart';
+import 'package:mange_flix/movies.dart';
 import 'package:flutter/gestures.dart';
 
 class Login extends StatefulWidget {
@@ -15,16 +15,16 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+
   bool display = false;
+  bool showError = false;
+
   _verificaLogin() async {
     bool encuser = false;
-    String url = "http://10.109.83.13:3000/users";
+    String url = "http://192.168.1.4:3000/users";
     http.Response response = await http.get(Uri.parse(url));
     List customers = <Users>[];
-    print(response.statusCode);
-    var data = json.decode(response.body) as List;
     customers = json.decode(response.body) as List;
-    print("${data[0]["email"]} ${data[0]["password"]}");
     for (int i = 0; i < customers.length; i++) {
       if (email.text == customers[i]["email"] &&
           password.text == customers[i]["password"]) {
@@ -33,7 +33,6 @@ class _LoginState extends State<Login> {
       }
     }
     if (encuser == true) {
-      print("Usuario ${email.text} encontrado");
       encuser = false;
       if (!mounted) return;
       Navigator.push(
@@ -41,7 +40,15 @@ class _LoginState extends State<Login> {
       email.text = "";
       password.text = "";
     } else {
-      print("Usuario ${email.text} nao encontrado");
+      // Mostrar o erro e redefinir após alguns segundos
+      setState(() {
+        showError = true;
+      });
+      Future.delayed(const Duration(seconds: 3), () {
+        setState(() {
+          showError = false;
+        });
+      });
     }
   }
 
@@ -59,10 +66,7 @@ class _LoginState extends State<Login> {
               padding: EdgeInsets.all(8.0),
               child: Text(
                 "LOGIN",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
               ),
             ),
             SizedBox(
@@ -110,6 +114,21 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                   Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: AnimatedOpacity(
+                        opacity: showError ? 1.0 : 0.0,
+                        duration: const Duration(milliseconds: 500),
+                        child: const Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "Credenciais incorretas!",
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                                color: Colors.red, fontWeight: FontWeight.bold),
+                          ),
+                        )),
+                  ),
+                  Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: RichText(
                       text: TextSpan(
@@ -138,18 +157,22 @@ class _LoginState extends State<Login> {
                       ),
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                      onPressed: _verificaLogin,
+                      style: ButtonStyle(
+                        fixedSize: WidgetStateProperty.all<Size>(
+                            const Size(300, double.infinity)),
+                      ),
+                      child: const Text(
+                        "ENTRAR",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
                 ],
-              ),
-            ),
-            ElevatedButton(
-              onPressed: _verificaLogin,
-              style: ButtonStyle(
-                fixedSize: MaterialStateProperty.all<Size>(
-                    const Size(300, double.infinity)),
-              ),
-              child: const Text(
-                "ENTRAR",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
           ],

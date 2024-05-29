@@ -17,12 +17,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return AdaptiveTheme(
       light: ThemeData(
+        fontFamily: 'Poppins',
         useMaterial3: true,
         brightness: Brightness.light,
         colorSchemeSeed: Colors.blue,
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            backgroundColor: const WidgetStatePropertyAll(Colors.blue),
+            foregroundColor: const WidgetStatePropertyAll(Colors.white),
+            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8.0),
               ),
@@ -31,12 +34,14 @@ class MyApp extends StatelessWidget {
         ),
       ),
       dark: ThemeData(
+        fontFamily: 'Poppins',
         useMaterial3: true,
         brightness: Brightness.dark,
         colorSchemeSeed: Colors.blue,
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            foregroundColor: const WidgetStatePropertyAll(Colors.blue),
+            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8.0),
               ),

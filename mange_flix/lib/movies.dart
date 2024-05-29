@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class Films extends StatefulWidget {
   const Films({super.key});
@@ -10,6 +11,7 @@ class Films extends StatefulWidget {
 }
 
 class _FilmsState extends State<Films> {
+  @override
   void initState() {
     super.initState();
     showFilms();
@@ -26,7 +28,7 @@ class _FilmsState extends State<Films> {
       setState(() {
         data = json.decode(response.body) as List<
             dynamic>; // cria a variavel data como lista para receber o json
-        print(data); // transforma os dados como uma lista para poder exibir
+        // print(data); // transforma os dados como uma lista para poder exibir
       });
     }
   }
@@ -34,47 +36,57 @@ class _FilmsState extends State<Films> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView.builder(
-          itemCount: data.length, // conta o tamanho da lista de datas
-          itemBuilder: (context, index) {
-            final item = data[
-                index]; // variavel item que irá armazenar os elementos da lista
-            return ListTile(MovieCard(),
-                // title: Text(
-                //   "Nome: ${item["nome"]}",
-                //   style: TextStyle(fontSize: 16),
-                //   textAlign: TextAlign.center,
-                // ),
-                // subtitle: Column(
-                //   children: [
-                //     Text(
-                //       "Valor: ${item["valor"]} ",
-                //       style: TextStyle(fontSize: 16),
-                //     ),
-                //     Text("Qtde: ${item["qtde"]}", style: TextStyle(fontSize: 16)),
-                //   ],
-                // ),
+      appBar: AppBar(
+        title: const Text(
+          "Catálogo",
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        ),
+      ),
+      body: Center(
+        child: ListView(
+          shrinkWrap: true,
+          children: [
+            CarouselSlider.builder(
+              itemCount: data.length,
+              itemBuilder: (BuildContext context, int index, int realIndex) {
+                final item = Movies.fromJson(data[index]);
+                return MovieCard(
+                  title: item.title,
+                  imageUrl: item.image,
+                  duration: item.duration,
+                  releaseYear: item.releaseYear,
+                  rating: double.parse(item.note),
                 );
-          }),
+              },
+              options: CarouselOptions(
+                height: 605,
+                aspectRatio: 16 / 9,
+                enableInfiniteScroll: false,
+                enlargeCenterPage: false,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
 
-class Users {
-  String name;
+class Movies {
+  String title;
   String image;
   String duration;
-  int release;
+  String releaseYear;
   String note;
-  Users(
-    this.name,
+  Movies(
+    this.title,
     this.image,
     this.duration,
-    this.release,
+    this.releaseYear,
     this.note,
   );
-  factory Users.fromJson(Map<String, dynamic> json) {
-    return Users(json["nome"], json["imagem"], json["duração"],
+  factory Movies.fromJson(Map<String, dynamic> json) {
+    return Movies(json["nome"], json["imagem"], json["duração"],
         json["ano de lançamento"], json["nota"]);
   }
 }
@@ -83,7 +95,7 @@ class MovieCard extends StatefulWidget {
   final String title;
   final String imageUrl;
   final String duration;
-  final int releaseYear;
+  final String releaseYear;
   final double rating;
 
   const MovieCard({
@@ -103,6 +115,7 @@ class _MovieCardState extends State<MovieCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      margin: const EdgeInsets.all(4.0),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -110,39 +123,38 @@ class _MovieCardState extends State<MovieCard> {
           children: [
             Text(
               widget.title,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 24.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 10.0),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8.0),
+            const SizedBox(height: 10.0),
+            AspectRatio(
+              aspectRatio: 2 / 3, // Proporção 2:3
               child: Image.network(
                 widget.imageUrl,
-                width: 150.0,
-                height: 200.0,
-                fit: BoxFit.cover,
+                fit: BoxFit
+                    .cover, // Para preencher o espaço mantendo a proporção
               ),
             ),
-            SizedBox(height: 10.0),
+            const SizedBox(height: 10.0),
             Text(
               'Duração: ${widget.duration}',
-              style: TextStyle(fontSize: 16.0),
+              style: const TextStyle(fontSize: 20.0),
             ),
-            SizedBox(height: 5.0),
+            const SizedBox(height: 5.0),
             Text(
               'Ano de Lançamento: ${widget.releaseYear}',
-              style: TextStyle(fontSize: 16.0),
+              style: const TextStyle(fontSize: 20.0),
             ),
-            SizedBox(height: 5.0),
+            const SizedBox(height: 5.0),
             Row(
               children: [
-                Icon(Icons.star, color: Colors.yellow),
-                SizedBox(width: 5.0),
+                const Icon(Icons.star, color: Colors.yellow),
+                const SizedBox(width: 5.0),
                 Text(
                   widget.rating.toString(),
-                  style: TextStyle(fontSize: 16.0),
+                  style: const TextStyle(fontSize: 20.0),
                 ),
               ],
             ),
