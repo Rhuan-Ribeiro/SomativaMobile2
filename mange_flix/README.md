@@ -1,4 +1,4 @@
-# mange_flix
+# MangeFlix
 
 A new Flutter project.
 

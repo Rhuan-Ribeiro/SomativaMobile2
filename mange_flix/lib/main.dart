@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mange_flix/login.dart';
+import 'package:mangeflix/login.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
 
 void main() async {

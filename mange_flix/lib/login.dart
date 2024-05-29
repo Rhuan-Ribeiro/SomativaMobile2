@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:mange_flix/cadaster.dart';
-import 'package:mange_flix/movies.dart';
+import 'package:mangeflix/cadaster.dart';
+import 'package:mangeflix/movies.dart';
 import 'package:flutter/gestures.dart';
 
 class Login extends StatefulWidget {

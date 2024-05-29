@@ -1,4 +1,4 @@
-package navegator.bar.example.mange_flix
+package navegator.bar.example.MangeFlix
 
 import io.flutter.embedding.android.FlutterActivity
 
