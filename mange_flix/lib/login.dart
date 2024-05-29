@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:mange_flix/cadaster.dart';
+import 'package:mange_flix/films.dart';
 import 'package:flutter/gestures.dart';
 
 class Login extends StatefulWidget {
@@ -35,8 +36,8 @@ class _LoginState extends State<Login> {
       print("Usuario ${email.text} encontrado");
       encuser = false;
       if (!mounted) return;
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const UserRegistration()));
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const Films()));
       email.text = "";
       password.text = "";
     } else {

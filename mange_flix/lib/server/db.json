@@ -1,19 +1,24 @@
-{ 
-    "users": [
-      {
-        "id": "1",
-        "email": "rhuan@dev.com",
-        "password": "somativa"
-      },
-      {
-        "id": "2",
-        "email": "test@test.com",
-        "password": "test"
-      },
-      {
-        "id": "3",
-        "email": "admin@admin.com",
-        "password": "admin"
-      }
-    ]
-  }
+{
+  "users": [
+    {
+      "id": "1",
+      "email": "rhuan@dev.com",
+      "password": "somativa"
+    },
+    {
+      "id": "2",
+      "email": "test@test.com",
+      "password": "test"
+    },
+    {
+      "id": "3",
+      "email": "admin@admin.com",
+      "password": "admin"
+    },
+    {
+      "id": "test1@tests.com",
+      "email": "test1@tests.com",
+      "password": "tests"
+    }
+  ]
+}
